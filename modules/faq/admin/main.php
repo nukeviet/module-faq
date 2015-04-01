@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2012 VINADES.,JSC. All rights reserved
+ * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate 2-9-2010 14:43
  */
 
@@ -19,13 +20,13 @@ function nv_FixWeight( $catid )
 {
     global $db, $module_data;
 
-    $sql = "SELECT `id` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $catid . " ORDER BY `weight` ASC";
-    $result = $db->sql_query( $sql );
+    $sql = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $catid . " ORDER BY weight ASC";
+    $result = $db->query( $sql );
     $weight = 0;
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
         ++$weight;
-        $db->sql_query( "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "` SET `weight`=" . $weight . " WHERE `id`=" . $row['id'] );
+        $db->query( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . " SET weight=" . $weight . " WHERE id=" . $row['id'] );
     }
 }
 
@@ -38,23 +39,23 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
 
         if ( $id )
         {
-            $query = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`=" . $id;
-            $result = $db->sql_query( $query );
-            $numrows = $db->sql_numrows( $result );
+            $query = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id=" . $id;
+            $result = $db->query( $query );
+            $numrows = $result->rowCount();
             if ( $numrows != 1 )
             {
-                Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+                Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
                 exit();
             }
 
             define( 'IS_EDIT', true );
             $page_title = $lang_module['faq_editfaq'];
 
-            $row = $db->sql_fetchrow( $result );
+            $row = $result->fetch();
         }
         else
         {
-            Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+            Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
             exit();
         }
     }
@@ -78,23 +79,23 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
     if ( $nv_Request->isset_request( 'submit', 'post' ) )
     {
         $array['catid'] = $nv_Request->get_int( 'catid', 'post', 0 );
-        $array['title'] = filter_text_input( 'title', 'post', '', 1 );
-        $array['question'] = filter_text_textarea( 'question', '', NV_ALLOWED_HTML_TAGS );
-        $array['answer'] = nv_editor_filter_textarea( 'answer', '', NV_ALLOWED_HTML_TAGS );
+        $array['title'] = $nv_Request->get_title( 'title', 'post', '', 1 );
+        $array['question'] = $nv_Request->get_textarea( 'question', '', NV_ALLOWED_HTML_TAGS );
+        $array['answer'] = $nv_Request->get_editor( 'answer', '', NV_ALLOWED_HTML_TAGS );
 
         $alias = change_alias( $array['title'] );
 
         if ( defined( 'IS_ADD' ) )
         {
-            $sql = "SELECT COUNT(*) FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `alias`=" . $db->dbescape( $alias );
-            $result = $db->sql_query( $sql );
-            list( $is_exists ) = $db->sql_fetchrow( $result );
+            $sql = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE alias=" . $db->quote( $alias );
+            $result = $db->query( $sql );
+            $is_exists = $result->fetchColumn();
         }
         else
         {
-            $sql = "SELECT COUNT(*) FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`!=" . $id . " AND `alias`=" . $db->dbescape( $alias );
-            $result = $db->sql_query( $sql );
-            list( $is_exists ) = $db->sql_fetchrow( $result );
+            $sql = "SELECT COUNT(*) FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id!=" . $id . " AND alias=" . $db->quote( $alias );
+            $result = $db->query( $sql );
+            $is_exists = $result->fetchColumn();
         }
 
         if ( empty( $array['title'] ) )
@@ -123,9 +124,9 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
             {
                 if ( $array['catid'] != $row['catid'] )
                 {
-                    $sql = "SELECT MAX(weight) AS new_weight FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $array['catid'];
-                    $result = $db->sql_query( $sql );
-                    list( $new_weight ) = $db->sql_fetchrow( $result );
+                    $sql = "SELECT MAX(weight) AS new_weight FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $array['catid'];
+                    $result = $db->query( $sql );
+                    $new_weight = $result->fetchColumn();
                     $new_weight = ( int )$new_weight;
                     ++$new_weight;
                 }
@@ -134,15 +135,15 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
                     $new_weight = $row['weight'];
                 }
 
-                $sql = "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "` SET 
-                `catid`=" . $array['catid'] . ", 
-                `title`=" . $db->dbescape( $array['title'] ) . ", 
-                `alias`=" . $db->dbescape( $alias ) . ", 
-                `question`=" . $db->dbescape( $array['question'] ) . ", 
-                `answer`=" . $db->dbescape( $array['answer'] ) . ", 
-                `weight`=" . $new_weight . " 
-                WHERE `id`=" . $id;
-                $result = $db->sql_query( $sql );
+                $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . " SET 
+                catid=" . $array['catid'] . ", 
+                title=" . $db->quote( $array['title'] ) . ", 
+                alias=" . $db->quote( $alias ) . ", 
+                question=" . $db->quote( $array['question'] ) . ", 
+                answer=" . $db->quote( $array['answer'] ) . ", 
+                weight=" . $new_weight . " 
+                WHERE id=" . $id;
+                $result = $db->query( $sql );
 
                 if ( ! $result )
                 {
@@ -159,28 +160,28 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
                         nv_update_keywords( $row['catid'] );
                     }
 
-                    Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+                    Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
                     exit();
                 }
             } elseif ( defined( 'IS_ADD' ) )
             {
-                $sql = "SELECT MAX(weight) AS new_weight FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $array['catid'];
-                $result = $db->sql_query( $sql );
-                list( $new_weight ) = $db->sql_fetchrow( $result );
+                $sql = "SELECT MAX(weight) AS new_weight FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $array['catid'];
+                $result = $db->query( $sql );
+                $new_weight = $result->fetchColumn();
                 $new_weight = ( int )$new_weight;
                 ++$new_weight;
 
-                $sql = "INSERT INTO `" . NV_PREFIXLANG . "_" . $module_data . "` VALUES (
+                $sql = "INSERT INTO " . NV_PREFIXLANG . "_" . $module_data . " VALUES (
                 NULL, 
                 " . $array['catid'] . ", 
-                " . $db->dbescape( $array['title'] ) . ", 
-                " . $db->dbescape( $alias ) . ", 
-                " . $db->dbescape( $array['question'] ) . ", 
-                " . $db->dbescape( $array['answer'] ) . ", 
+                " . $db->quote( $array['title'] ) . ", 
+                " . $db->quote( $alias ) . ", 
+                " . $db->quote( $array['question'] ) . ", 
+                " . $db->quote( $array['answer'] ) . ", 
                 " . $new_weight . ", 
                 1, " . NV_CURRENTTIME . ")";
 
-                if ( ! $db->sql_query_insert_id( $sql ) )
+                if ( ! $db->insert_id( $sql ) )
                 {
                     $is_error = true;
                     $error = $lang_module['faq_error_notResult2'];
@@ -189,7 +190,7 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
                 {
                     nv_update_keywords( $array['catid'] );
                     
-                    Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+                    Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
                     exit();
                 }
             }
@@ -223,7 +224,7 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
     $listcats = $listcats + nv_listcats( $array['catid'] );
     if ( empty( $listcats ) )
     {
-        Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=cat&add=1" );
+        Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=cat&add=1" );
         exit();
     }
 
@@ -245,11 +246,11 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
 
     if ( defined( 'IS_EDIT' ) )
     {
-        $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;edit=1&amp;id=" . $id );
+        $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;edit=1&amp;id=" . $id );
     }
     else
     {
-        $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;add=1" );
+        $xtpl->assign( 'FORM_ACTION', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;add=1" );
     }
 
     $xtpl->assign( 'LANG', $lang_module );
@@ -270,9 +271,9 @@ if ( $nv_Request->isset_request( 'add', 'get' ) or $nv_Request->isset_request( '
     $xtpl->parse( 'main' );
     $contents = $xtpl->text( 'main' );
 
-    include ( NV_ROOTDIR . "/includes/header.php" );
+    include NV_ROOTDIR . '/includes/header.php';
     echo nv_admin_theme( $contents );
-    include ( NV_ROOTDIR . "/includes/footer.php" );
+    include NV_ROOTDIR . '/includes/footer.php';
     exit();
 }
 
@@ -284,27 +285,27 @@ if ( $nv_Request->isset_request( 'changeweight', 'post' ) )
     $id = $nv_Request->get_int( 'id', 'post', 0 );
     $new = $nv_Request->get_int( 'new', 'post', 0 );
 
-    if ( empty( $id ) ) die( "NO" );
+    if ( empty( $id ) ) die( 'NO' );
 
-    $query = "SELECT `catid` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`=" . $id;
-    $result = $db->sql_query( $query );
-    $numrows = $db->sql_numrows( $result );
+    $query = "SELECT catid FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id=" . $id;
+    $result = $db->query( $query );
+    $numrows = $result->rowCount();
     if ( $numrows != 1 ) die( 'NO' );
-    list( $catid ) = $db->sql_fetchrow( $result );
+    $catid = $result->fetchColumn();
 
-    $query = "SELECT `id` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`!=" . $id . " AND `catid`=" . $catid . " ORDER BY `weight` ASC";
-    $result = $db->sql_query( $query );
+    $query = "SELECT id FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id!=" . $id . " AND catid=" . $catid . " ORDER BY weight ASC";
+    $result = $db->query( $query );
     $weight = 0;
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
         ++$weight;
         if ( $weight == $new ) ++$weight;
-        $sql = "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "` SET `weight`=" . $weight . " WHERE `id`=" . $row['id'];
-        $db->sql_query( $sql );
+        $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . " SET weight=" . $weight . " WHERE id=" . $row['id'];
+        $db->query( $sql );
     }
-    $sql = "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "` SET `weight`=" . $new . " WHERE `id`=" . $id;
-    $db->sql_query( $sql );
-    die( "OK" );
+    $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . " SET weight=" . $new . " WHERE id=" . $id;
+    $db->query( $sql );
+    die( 'OK' );
 }
 
 //Kich hoat - dinh chi
@@ -314,22 +315,22 @@ if ( $nv_Request->isset_request( 'changestatus', 'post' ) )
 
     $id = $nv_Request->get_int( 'id', 'post', 0 );
 
-    if ( empty( $id ) ) die( "NO" );
+    if ( empty( $id ) ) die( 'NO' );
 
-    $query = "SELECT `catid`, `status` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`=" . $id;
-    $result = $db->sql_query( $query );
-    $numrows = $db->sql_numrows( $result );
+    $query = "SELECT catid, status FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id=" . $id;
+    $result = $db->query( $query );
+    $numrows = $result->rowCount();
     if ( $numrows != 1 ) die( 'NO' );
 
-    list( $catid, $status ) = $db->sql_fetchrow( $result );
+    list( $catid, $status ) = $result->fetch( 3 );
     $status = $status ? 0 : 1;
 
-    $sql = "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "` SET `status`=" . $status . " WHERE `id`=" . $id;
-    $db->sql_query( $sql );
+    $sql = "UPDATE " . NV_PREFIXLANG . "_" . $module_data . " SET status=" . $status . " WHERE id=" . $id;
+    $db->query( $sql );
     
     nv_update_keywords( $catid );
     
-    die( "OK" );
+    die( 'OK' );
 }
 
 //Xoa
@@ -341,26 +342,26 @@ if ( $nv_Request->isset_request( 'del', 'post' ) )
 
     if ( empty( $id ) )
     {
-        die( "NO" );
+        die( 'NO' );
     }
 
-    $sql = "SELECT COUNT(*) AS count, `catid` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`=" . $id;
-    $result = $db->sql_query( $sql );
-    list( $count, $catid ) = $db->sql_fetchrow( $result );
+    $sql = "SELECT COUNT(*) AS count, catid FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id=" . $id;
+    $result = $db->query( $sql );
+    list( $count, $catid ) = $result->fetch( 3 );
 
     if ( $count != 1 )
     {
-        die( "NO" );
+        die( 'NO' );
     }
 
-    $sql = "DELETE FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `id`=" . $id;
-    $db->sql_query( $sql );
+    $sql = "DELETE FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE id=" . $id;
+    $db->query( $sql );
     
     nv_update_keywords( $catid );
     
     nv_FixWeight( $catid );
 
-    die( "OK" );
+    die( 'OK' );
 }
 
 //List faq
@@ -374,7 +375,7 @@ $listcats[0] = array(
 $listcats = $listcats + nv_listcats( 0 );
 if ( empty( $listcats ) )
 {
-    Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=cat&add=1" );
+    Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&" . NV_OP_VARIABLE . "=cat&add=1" );
     exit();
 }
 
@@ -383,20 +384,20 @@ $page_title = $lang_module['faq_manager'];
 $page = $nv_Request->get_int( 'page', 'get', 0 );
 $per_page = 30;
 
-$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM `" . NV_PREFIXLANG . "_" . $module_data . "`";
-$base_url = NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name;
+$sql = "SELECT SQL_CALC_FOUND_ROWS * FROM " . NV_PREFIXLANG . "_" . $module_data . "";
+$base_url = NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name;
 
 if ( $nv_Request->isset_request( "catid", "get" ) )
 {
     $catid = $nv_Request->get_int( 'catid', 'get', 0 );
     if ( ! $catid or ! isset( $listcats[$catid] ) )
     {
-        Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name );
+        Header( 'Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name );
         exit();
     }
 
     $caption = sprintf( $lang_module['faq_list_by_cat'], $listcats[$catid]['title'] );
-    $sql .= " WHERE `catid`=" . $catid . " ORDER BY `weight` ASC";
+    $sql .= " WHERE catid=" . $catid . " ORDER BY weight ASC";
     $base_url .= "&amp;catid=" . $catid;
 
     define( 'NV_IS_CAT', true );
@@ -404,42 +405,42 @@ if ( $nv_Request->isset_request( "catid", "get" ) )
 else
 {
     $caption = $lang_module['faq_manager'];
-    $sql .= " ORDER BY `id` DESC";
+    $sql .= " ORDER BY id DESC";
 }
 
 $sql .= " LIMIT " . $page . ", " . $per_page;
 
-$query = $db->sql_query( $sql );
+$query = $db->query( $sql );
 
-$result = $db->sql_query( "SELECT FOUND_ROWS()" );
-list( $all_page ) = $db->sql_fetchrow( $result );
+$result = $db->query( "SELECT FOUND_ROWS()" );
+$all_page = $result->fetchColumn();
 
 if ( ! $all_page )
 {
     if ( defined( 'NV_IS_CAT' ) )
     {
         $contents = "";
-        include ( NV_ROOTDIR . "/includes/header.php" );
+        include NV_ROOTDIR . '/includes/header.php';
         echo nv_admin_theme( $contents );
-        include ( NV_ROOTDIR . "/includes/footer.php" );
+        include NV_ROOTDIR . '/includes/footer.php';
         exit();
     }
     else
     {
-        Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&add=1" );
+        Header( "Location: " . NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&" . NV_NAME_VARIABLE . "=" . $module_name . "&add=1" );
         exit();
     }
 }
 
 $array = array();
 
-while ( $row = $db->sql_fetchrow( $query ) )
+while ( $row = $query->fetch() )
 {
     $array[$row['id']] = array( //
         'id' => ( int )$row['id'], //
         'title' => $row['title'], //
         'cattitle' => $listcats[$row['catid']]['title'], //
-        'catlink' => NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;catid=" . $row['catid'], //
+        'catlink' => NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;catid=" . $row['catid'], //
         'status' => $row['status'] ? " checked=\"checked\"" : "" //
         );
 
@@ -463,7 +464,7 @@ $xtpl = new XTemplate( "main.tpl", NV_ROOTDIR . "/themes/" . $global_config['mod
 $xtpl->assign( 'LANG', $lang_module );
 $xtpl->assign( 'GLANG', $lang_global );
 $xtpl->assign( 'TABLE_CAPTION', $caption );
-$xtpl->assign( 'ADD_NEW_FAQ', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;add=1" );
+$xtpl->assign( 'ADD_NEW_FAQ', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;add=1" );
 
 if ( defined( 'NV_IS_CAT' ) )
 {
@@ -488,7 +489,7 @@ if ( ! empty( $array ) )
             $xtpl->parse( 'main.row.is_cat2' );
         }
 
-        $xtpl->assign( 'EDIT_URL', NV_BASE_ADMINURL . "index.php?" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;edit=1&amp;id=" . $row['id'] );
+        $xtpl->assign( 'EDIT_URL', NV_BASE_ADMINURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;edit=1&amp;id=" . $row['id'] );
         $xtpl->parse( 'main.row' );
         ++$a;
     }
@@ -503,8 +504,6 @@ if ( ! empty( $generate_page ) )
 $xtpl->parse( 'main' );
 $contents = $xtpl->text( 'main' );
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_admin_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

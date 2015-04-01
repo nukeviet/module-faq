@@ -1,6 +1,6 @@
 <!-- BEGIN: main -->
 <div id="users">
-    <table class="tab1">
+    <table class="table table-striped table-bordered table-hover">
         <caption>{TABLE_CAPTION}</caption>
         <thead>
             <tr>
@@ -21,11 +21,11 @@
                 </td>
             </tr>
         </thead>
+        <tbody>
         <!-- BEGIN: row -->
-        <tbody{ROW.class}>
             <tr>
                 <td style="width:15px">
-                    <select name="weight" id="weight{ROW.id}" onchange="nv_chang_weight({ROW.id});">
+                    <select class="form-control" name="weight" id="weight{ROW.id}" onchange="nv_chang_weight({ROW.id});">
                         <!-- BEGIN: weight -->
                         <option value="{WEIGHT.pos}"{WEIGHT.selected}>{WEIGHT.pos}</option>
                         <!-- END: weight -->
@@ -45,8 +45,8 @@
                     &nbsp;&nbsp;<span class="delete_icon"><a href="javascript:void(0);" onclick="nv_cat_del({ROW.id});">{GLANG.delete}</a></span>
                 </td>
             </tr>
-        </tbody>
         <!-- END: row -->
+        <tbody>
     </table>
 </div>
 <div style="margin-top:8px;">

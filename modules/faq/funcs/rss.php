@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES (contact@vinades.vn)
- * @Copyright (C) 2012 VINADES. All rights reserved
+ * @Copyright (C) 2014 VINADES. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate Apr 20, 2010 10:47:41 AM
  */
 
@@ -40,30 +41,30 @@ if ( ! empty( $list_cats ) )
         $channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $list_cats[$catid]['alias'];
         $channel['description'] = $list_cats[$catid]['description'];
         
-        $sql = "SELECT `id`, `catid`, `title`, `question`, `addtime` 
-        FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $catid . " 
-        AND `status`=1 ORDER BY `weight` ASC LIMIT 30";
+        $sql = "SELECT id, catid, title, question, addtime 
+        FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $catid . " 
+        AND status=1 ORDER BY weight ASC LIMIT 30";
     }
     else
     {
         $in = array_keys( $list_cats );
         $in = implode( ",", $in );
-        $sql = "SELECT `id`, `catid`, `title`, `question`, `addtime` 
-        FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid` IN (" . $in . ") 
-        AND `status`=1 ORDER BY `weight` ASC LIMIT 30";
+        $sql = "SELECT id, catid, title, question, addtime 
+        FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid IN (" . $in . ") 
+        AND status=1 ORDER BY weight ASC LIMIT 30";
     }
     if ( $module_info['rss'] )
     {
-        if ( ( $result = $db->sql_query( $sql ) ) !== false )
+        if ( ( $result = $db->query( $sql ) ) !== false )
         {
-            while ( list( $id, $cid, $title, $question, $addtime ) = $db->sql_fetchrow( $result ) )
+            while ( list( $id, $cid, $title, $question, $addtime ) = $result->fetch( 3 ) )
             {
-                $items[] = array(  //
-                    'title' => $title, //
-					'link' => NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $list_cats[$cid]['alias'] . "#faq" . $id, //
-					'guid' => $module_name . '_' . $id, //
-					'description' => $lang_module['faq_question'] . ": " . $question, //
-					'pubdate' => $addtime  //
+                $items[] = array(  
+                    'title' => $title, 
+					'link' => NV_MY_DOMAIN . NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $module_name . "&amp;" . NV_OP_VARIABLE . "=" . $list_cats[$cid]['alias'] . "#faq" . $id, 
+					'guid' => $module_name . '_' . $id, 
+					'description' => $lang_module['faq_question'] . ": " . $question, 
+					'pubdate' => $addtime  
                 );
             }
         }
@@ -72,5 +73,3 @@ if ( ! empty( $list_cats ) )
 
 nv_rss_generate( $channel, $items );
 die();
-
-?>

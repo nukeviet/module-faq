@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @copyright 2009
- * @createdate 12/31/2009 0:51
+ * @License GNU/GPL version 2 or any later version
+ * @Createdate 12/31/2009 0:51
  */
 
 if ( ! defined( 'NV_IS_MOD_FAQ' ) ) die( 'Stop!!!' );
@@ -108,5 +109,3 @@ function theme_cat_faq( $list_cats, $catid, $faq, $mod_title )
     $xtpl->parse( 'main' );
     return $xtpl->text( 'main' );
 }
-
-?>
