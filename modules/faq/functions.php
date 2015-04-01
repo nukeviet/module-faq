@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @copyright 2009
- * @createdate 12/31/2009 0:51
+ * @License GNU/GPL version 2 or any later version
+ * @Createdate 12/31/2009 0:51
  */
 
 if ( ! defined( 'NV_SYSTEM' ) ) die( 'Stop!!!' );
@@ -52,11 +53,11 @@ function nv_list_cats( $is_link = false, $is_parentlink = true )
 {
     global $db, $module_data, $module_name, $module_info;
 
-    $sql = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "_categories` WHERE `status`=1 ORDER BY `parentid`,`weight` ASC";
-    $result = $db->sql_query( $sql );
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_categories WHERE status=1 ORDER BY parentid,weight ASC";
+    $result = $db->query( $sql );
 
     $list = array();
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
         if ( nv_set_allow( $row['who_view'], $row['groups_view'] ) )
         {
@@ -110,11 +111,11 @@ function nv_list_cats( $is_link = false, $is_parentlink = true )
  * 
  * @return
  */
-function initial_config_data ( )
+function initial_config_data ()
 {
     global $module_data;
     
-    $sql = "SELECT `config_name`,`config_value` FROM `" . NV_PREFIXLANG . "_" . $module_data . "_config`";
+    $sql = "SELECT config_name,config_value FROM " . NV_PREFIXLANG . "_" . $module_data . "_config";
     
     $list = nv_db_cache( $sql );
     
@@ -127,7 +128,7 @@ function initial_config_data ( )
     return $module_setting;
 }
 
-$module_setting = initial_config_data ( );
+$module_setting = initial_config_data ();
 
 /**
  * update_keywords()
@@ -152,7 +153,7 @@ function update_keywords( $catid, $faq )
 
     if ( ! empty( $keywords ) )
     {
-        $db->sql_query( "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "_categories` SET `keywords`=" . $db->dbescape( $keywords ) . " WHERE `id`=" . $catid );
+        $db->query( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_categories SET keywords=" . $db->quote( $keywords ) . " WHERE id=" . $catid );
     }
 
     return $keywords;
@@ -220,6 +221,3 @@ foreach ( $list_cats as $c )
 }
 //Het Xac dinh menu
 //Het Xac dinh RSS
-
-
-?>

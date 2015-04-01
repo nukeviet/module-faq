@@ -41,18 +41,18 @@ function nv_faq_list_cats( $module_data )
 {
     global $db;
 
-    $sql = "SELECT `id`, `title`, `alias`, `who_view`, `groups_view` FROM `" . NV_PREFIXLANG . "_" . $module_data . "_categories` WHERE `status`=1";
-    $result = $db->sql_query( $sql );
+    $sql = "SELECT id, title, alias, who_view, groups_view FROM " . NV_PREFIXLANG . "_" . $module_data . "_categories WHERE status=1";
+    $result = $db->query( $sql );
 
     $list = array();
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
         if ( nv_faq_set_allow( $row['who_view'], $row['groups_view'] ) )
         {
-            $list[$row['id']] = array( //
-                'id' => ( int )$row['id'], //
-                'title' => $row['title'], //
-                'alias' => $row['alias'] //
+            $list[$row['id']] = array( 
+                'id' => ( int )$row['id'], 
+                'title' => $row['title'], 
+                'alias' => $row['alias'] 
                 );
         }
     }
@@ -63,31 +63,29 @@ function nv_faq_list_cats( $module_data )
 $list_cats = nv_faq_list_cats( $m_values['module_data'] );
 $in = implode( ",", array_keys( $list_cats ) );
 
-$sql = "SELECT SQL_CALC_FOUND_ROWS `id`,`question`, `answer`, `catid` 
-FROM `" . NV_PREFIXLANG . "_" . $m_values['module_data'] . "` 
-WHERE `catid` IN (" . $in . ") 
+$sql = "SELECT SQL_CALC_FOUND_ROWS id,question, answer, catid 
+FROM " . NV_PREFIXLANG . "_" . $m_values['module_data'] . " 
+WHERE catid IN (" . $in . ") 
 AND 
 (" . nv_like_logic( 'question', $dbkeyword, $logic ) . " 
 OR " . nv_like_logic( 'answer', $dbkeyword, $logic ) . ") 
 LIMIT " . $pages . "," . $limit;
 
-$tmp_re = $db->sql_query( $sql );
+$tmp_re = $db->query( $sql );
 
-$result = $db->sql_query( "SELECT FOUND_ROWS()" );
-list( $all_page ) = $db->sql_fetchrow( $result );
+$result = $db->query( "SELECT FOUND_ROWS()" );
+$all_page = $result->fetchColumn();
 
 if ( $all_page )
 {
     $link = NV_BASE_SITEURL . "index.php?" . NV_LANG_VARIABLE . "=" . NV_LANG_DATA . "&amp;" . NV_NAME_VARIABLE . "=" . $m_values['module_name'] . '&amp;' . NV_OP_VARIABLE . '=';
 
-    while ( list( $id, $question, $answer, $catid ) = $db->sql_fetchrow( $tmp_re ) )
+    while ( list( $id, $question, $answer, $catid ) = $tmp_re->fetch( 3 ) )
     {
-        $result_array[] = array( //
-            'link' => $link . $list_cats[$catid]['alias'] . '#faq' . $id, //
-            'title' => BoldKeywordInStr( $question, $key, $logic ), //
-            'content' => BoldKeywordInStr( $answer, $key, $logic ) //
+        $result_array[] = array( 
+            'link' => $link . $list_cats[$catid]['alias'] . '#faq' . $id, 
+            'title' => BoldKeywordInStr( $question, $key, $logic ), 
+            'content' => BoldKeywordInStr( $answer, $key, $logic ) 
             );
     }
 }
-
-?>

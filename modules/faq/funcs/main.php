@@ -1,9 +1,10 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2012 VINADES.,JSC. All rights reserved
+ * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
+ * @License GNU/GPL version 2 or any later version
  * @Createdate 3-6-2010 0:30
  */
 
@@ -19,9 +20,9 @@ if ( empty( $list_cats ) and ! $module_setting['type_main'] )
 {
     $page_title = $module_info['custom_title'];
 
-    include ( NV_ROOTDIR . "/includes/header.php" );
+    include NV_ROOTDIR . '/includes/header.php';
     echo nv_site_theme( $contents );
-    include ( NV_ROOTDIR . "/includes/footer.php" );
+    include NV_ROOTDIR . '/includes/footer.php';
     exit();
 }
 
@@ -32,12 +33,12 @@ if ( ! empty( $alias ) and $catid )
     $description = $list_cats[$catid]['description'];
     $mod_title = $list_cats[$catid]['name'];
 
-    $query = "SELECT `id`,`title`, `question`, `answer` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $catid . " AND `status`=1 ORDER BY `weight` ASC";
-    $result = $db->sql_query( $query );
+    $query = "SELECT id,title, question, answer FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $catid . " AND status=1 ORDER BY weight ASC";
+    $result = $db->query( $query );
 
     $faq = array();
 
-    while ( list( $fid, $ftitle, $fquestion, $fanswer ) = $db->sql_fetchrow( $result ) )
+    while ( list( $fid, $ftitle, $fquestion, $fanswer ) = $result->fetch( 3 ) )
     {
         $faq[$fid] = array( //
             'id' => $fid, //
@@ -57,9 +58,9 @@ if ( ! empty( $alias ) and $catid )
 
     $contents = theme_cat_faq( $list_cats, $catid, $faq, $mod_title );
 
-    include ( NV_ROOTDIR . "/includes/header.php" );
+    include NV_ROOTDIR . '/includes/header.php';
     echo nv_site_theme( $contents );
-    include ( NV_ROOTDIR . "/includes/footer.php" );
+    include NV_ROOTDIR . '/includes/footer.php';
     exit();
 }
 elseif ( $module_setting['type_main'] == 0 )
@@ -70,12 +71,12 @@ elseif ( $module_setting['type_main'] == 1 or  $module_setting['type_main'] == 2
 {
 	$order = ( $module_setting['type_main'] == 1 ) ? "DESC" : "ASC";
 	
-    $query = "SELECT `id`,`title`, `question`, `answer` FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `status`=1 ORDER BY `addtime` " . $order;
-    $result = $db->sql_query( $query );
+    $query = "SELECT id,title, question, answer FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE status=1 ORDER BY addtime " . $order;
+    $result = $db->query( $query );
 
     $faq = array();
 
-    while ( list( $fid, $ftitle, $fquestion, $fanswer ) = $db->sql_fetchrow( $result ) )
+    while ( list( $fid, $ftitle, $fquestion, $fanswer ) = $result->fetch( 3 ) )
     {
         $faq[$fid] = array( //
             'id' => $fid, //
@@ -92,8 +93,6 @@ else
 	nv_info_die( $lang_global['error_404_title'], $lang_global['error_404_title'], $lang_global['error_404_content'] );
 }
 
-include ( NV_ROOTDIR . "/includes/header.php" );
+include NV_ROOTDIR . '/includes/header.php';
 echo nv_site_theme( $contents );
-include ( NV_ROOTDIR . "/includes/footer.php" );
-
-?>
+include NV_ROOTDIR . '/includes/footer.php';

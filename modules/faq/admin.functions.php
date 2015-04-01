@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
+ * @Project NUKEVIET 4.x
  * @Author VINADES.,JSC (contact@vinades.vn)
  * @copyright 2009
- * @createdate 12/31/2009 2:29
+ * @License GNU/GPL version 2 or any later version
+ * @Createdate 12/31/2009 2:29
  */
 
 if ( ! defined( 'NV_ADMIN' ) or ! defined( 'NV_MAINFILE' ) or ! defined( 'NV_IS_MODADMIN' ) ) die( 'Stop!!!' );
@@ -64,23 +65,23 @@ function nv_listcats( $parentid, $m = 0 )
 {
     global $db, $module_data;
 
-    $sql = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "_categories` ORDER BY `parentid`,`weight` ASC";
-    $result = $db->sql_query( $sql );
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . "_categories ORDER BY parentid,weight ASC";
+    $result = $db->query( $sql );
     $list = array();
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
-        $list[$row['parentid']][] = array( //
-            'id' => ( int )$row['id'], //
-            'parentid' => ( int )$row['parentid'], //
-            'title' => $row['title'], //
-            'alias' => $row['alias'], //
-            'description' => $row['description'], //
-            'who_view' => ( int )$row['who_view'], //
-            'groups_view' => ! empty( $row['groups_view'] ) ? explode( ",", $row['groups_view'] ) : array(), //
-            'weight' => ( int )$row['weight'], //
-            'status' => $row['weight'], //
-            'name' => $row['title'], //
-            'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : "" //
+        $list[$row['parentid']][] = array( 
+            'id' => ( int )$row['id'], 
+            'parentid' => ( int )$row['parentid'], 
+            'title' => $row['title'], 
+            'alias' => $row['alias'], 
+            'description' => $row['description'], 
+            'who_view' => ( int )$row['who_view'], 
+            'groups_view' => ! empty( $row['groups_view'] ) ? explode( ",", $row['groups_view'] ) : array(), 
+            'weight' => ( int )$row['weight'], 
+            'status' => $row['weight'], 
+            'name' => $row['title'], 
+            'selected' => $parentid == $row['id'] ? " selected=\"selected\"" : "" 
             );
     }
 
@@ -117,10 +118,10 @@ function nv_update_keywords( $catid )
 
     $content = array();
 
-    $sql = "SELECT * FROM `" . NV_PREFIXLANG . "_" . $module_data . "` WHERE `catid`=" . $catid . " AND `status`=1";
-    $result = $db->sql_query( $sql );
+    $sql = "SELECT * FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE catid=" . $catid . " AND status=1";
+    $result = $db->query( $sql );
 
-    while ( $row = $db->sql_fetchrow( $result ) )
+    while ( $row = $result->fetch() )
     {
         $content[] = $row['title'] . " " . $row['question'] . " " . $row['answer'];
     }
@@ -131,10 +132,8 @@ function nv_update_keywords( $catid )
 
     if ( ! empty( $keywords ) )
     {
-        $db->sql_query( "UPDATE `" . NV_PREFIXLANG . "_" . $module_data . "_categories` SET `keywords`=" . $db->dbescape( $keywords ) . " WHERE `id`=" . $catid );
+        $db->query( "UPDATE " . NV_PREFIXLANG . "_" . $module_data . "_categories SET keywords=" . $db->quote( $keywords ) . " WHERE id=" . $catid );
     }
 
     return $keywords;
 }
-
-?>
