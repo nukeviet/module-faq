@@ -1,4 +1,4 @@
-# Hướng dẫn cập nhật module FAQ từ 4.0.29 lên 4.1.00
+# Hướng dẫn cập nhật module FAQ từ 4.0.29 lên 4.1.00, 4.1.01
 
 Chú ý: 
 - Gói cập nhật này chỉ dành cho module FAQ 4.0.29, nếu module của bạn không ở phiên bản này cần tìm các hướng dẫn cập nhật lên 4.0.29 trước.
