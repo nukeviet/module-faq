@@ -17,17 +17,17 @@ $nv_update_config = array();
 $nv_update_config['type'] = 1;
 
 // ID goi cap nhat
-$nv_update_config['packageID'] = 'NVUFAQ4102';
+$nv_update_config['packageID'] = 'NVUFAQ4300';
 
 // Cap nhat cho module nao, de trong neu la cap nhat NukeViet, ten thu muc module neu la cap nhat module
 $nv_update_config['formodule'] = 'faq';
 
 // Thong tin phien ban, tac gia, ho tro
-$nv_update_config['release_date'] = 1474563600;
+$nv_update_config['release_date'] = 1510643021;
 $nv_update_config['author'] = 'VINADES.,JSC (contact@vinades.vn)';
-$nv_update_config['support_website'] = 'https://github.com/nukeviet/module-faq/tree/to-4.1.02';
-$nv_update_config['to_version'] = '4.1.02';
-$nv_update_config['allow_old_version'] = array('4.0.29', '4.1.00', '4.1.01');
+$nv_update_config['support_website'] = 'https://github.com/nukeviet/module-faq/tree/to-4.3.00';
+$nv_update_config['to_version'] = '4.3.00';
+$nv_update_config['allow_old_version'] = array('4.0.29', '4.1.00', '4.1.01', '4.1.02');
 
 // 0:Nang cap bang tay, 1:Nang cap tu dong, 2:Nang cap nua tu dong
 $nv_update_config['update_auto_type'] = 1;
@@ -40,7 +40,7 @@ $nv_update_config['lang']['vi']['nv_up_finish'] = 'Đánh dấu phiên bản m�
 
 $nv_update_config['tasklist'] = array();
 $nv_update_config['tasklist'][] = array(
-    'r' => '4.1.02',
+    'r' => '4.3.00',
     'rq' => 1,
     'l' => 'nv_up_finish',
     'f' => 'nv_up_finish'
@@ -51,7 +51,7 @@ $nv_update_config['tasklist'][] = array(
 Chuan hoa tra ve:
 array(
 'status' =>
-'complete' => 
+'complete' =>
 'next' =>
 'link' =>
 'lang' =>
@@ -114,28 +114,33 @@ function nv_up_finish()
         'message' => ''
     );
 
+    @nv_deletefile(NV_ROOTDIR . '/modules/faq/admin/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/modules/faq/blocks/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/modules/faq/funcs/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/modules/faq/language/.htaccess');
+
     try {
         $num = $db->query("SELECT COUNT(*) FROM " . $db_config['prefix'] . "_setup_extensions WHERE basename='" . $nv_update_config['formodule'] . "' AND type='module'")->fetchColumn();
         $version = $nv_update_config['to_version'] . " " . $nv_update_config['release_date'];
-        
+
         if (!$num) {
             $db->query("INSERT INTO " . $db_config['prefix'] . "_setup_extensions (
                 id, type, title, is_sys, is_virtual, basename, table_prefix, version, addtime, author, note
             ) VALUES (
-                28, 'module', 'faq', 0, 1, 'faq', 'faq', '" . $nv_update_config['to_version'] . " " . $nv_update_config['release_date'] . "', " . NV_CURRENTTIME . ", 'VINADES.,JSC (contact@vinades.vn)', 
-                'Hỗ trợ hỏi đáp'
+                28, 'module', 'faq', 0, 1, 'faq', 'faq', '" . $nv_update_config['to_version'] . " " . $nv_update_config['release_date'] . "', " . NV_CURRENTTIME . ", 'VINADES.,JSC (contact@vinades.vn)',
+                'Module quản lý các câu hỏi thường gặp'
             )");
         } else {
-            $db->query("UPDATE " . $db_config['prefix'] . "_setup_extensions SET 
-                id=28, 
-                version='" . $version . "', 
-                author='VINADES.,JSC (contact@vinades.vn)' 
+            $db->query("UPDATE " . $db_config['prefix'] . "_setup_extensions SET
+                id=28,
+                version='" . $version . "',
+                author='VINADES.,JSC (contact@vinades.vn)'
             WHERE basename='" . $nv_update_config['formodule'] . "' AND type='module'");
         }
     } catch (PDOException $e) {
         trigger_error($e->getMessage());
     }
 
-    $nv_Cache->delAll();
+    $nv_Cache->delAll(true);
     return $return;
 }
