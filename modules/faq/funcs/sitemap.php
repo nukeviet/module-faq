@@ -12,7 +12,7 @@ if (!defined('NV_IS_MOD_FAQ')) {
     die('Stop!!!');
 }
 
-$page_url = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $page = 1;
 if (isset($array_op[0]) and substr($array_op[0], 0, 5) == 'page-') {
     $page = intval(substr($array_op[0], 5));
