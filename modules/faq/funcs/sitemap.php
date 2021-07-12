@@ -12,6 +12,16 @@ if (!defined('NV_IS_MOD_FAQ')) {
     die('Stop!!!');
 }
 
+$page_url = $base_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$page = 1;
+if (isset($array_op[0]) and substr($array_op[0], 0, 5) == 'page-') {
+    $page = intval(substr($array_op[0], 5));
+}
+if ($page > 1) {
+    $page_url .= '&amp;' . NV_OP_VARIABLE . '=page-' . $page;
+}
+$canonicalUrl = getCanonicalUrl($page_url, true, true);
+
 $url = array();
 $cacheFile = NV_LANG_DATA . '_Sitemap.cache';
 $cacheTTL = 7200;
