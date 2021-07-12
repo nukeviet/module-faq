@@ -12,6 +12,9 @@ if (!defined('NV_IS_MOD_FAQ')) {
     die('Stop!!!');
 }
 
+$page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
+$canonicalUrl = getCanonicalUrl($page_url, true, true);
+
 $url = array();
 $cacheFile = NV_LANG_DATA . '_Sitemap.cache';
 $cacheTTL = 7200;
