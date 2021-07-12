@@ -12,8 +12,6 @@ if (!defined('NV_IS_MOD_FAQ')) {
 }
 
 $page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
-$canonicalUrl = getCanonicalUrl($page_url, true, true);
-
 $page_title = $mod_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
 $description = $lang_module['faq_welcome'];
@@ -29,6 +27,8 @@ if (empty($list_cats) and !$module_setting['type_main']) {
 
 //Xem theo chu de
 if (!empty($alias) and $catid) {
+    $page_url .= '&amp;' . NV_OP_VARIABLE . '=' . $alias;
+    $canonicalUrl = getCanonicalUrl($page_url, true, true);
     $page_title = $module_info['custom_title'] . " - " . $list_cats[$catid]['title'];
     $description = $list_cats[$catid]['description'];
     $mod_title = $list_cats[$catid]['name'];
@@ -60,8 +60,10 @@ if (!empty($alias) and $catid) {
     include NV_ROOTDIR . '/includes/footer.php';
     exit();
 } elseif ($module_setting['type_main'] == 0) {
+    $canonicalUrl = getCanonicalUrl($page_url, true, true);
     $contents = theme_main_faq($list_cats);
 } elseif ($module_setting['type_main'] == 1 or $module_setting['type_main'] == 2) {
+    $canonicalUrl = getCanonicalUrl($page_url, true, true);
     $order = ($module_setting['type_main'] == 1) ? "DESC" : "ASC";
     
     $query = "SELECT id,title, question, answer FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE status=1 ORDER BY addtime " . $order;
