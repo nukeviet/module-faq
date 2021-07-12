@@ -83,7 +83,7 @@ function theme_cat_faq($list_cats, $catid, $faq)
             $xtpl->parse('main.is_show_row.row');
         }
         
-        $xtpl->assign('IMG_GO_TOP_SRC', NV_BASE_SITEURL . 'themes/' . $module_info['template'] . '/images/' . $module_info['module_theme'] . '/');
+        $xtpl->assign('IMG_GO_TOP_SRC', NV_STATIC_URL . 'themes/' . $module_info['template'] . '/images/' . $module_info['module_theme'] . '/');
         
         foreach ($faq as $row) {
             $xtpl->assign('ROW', $row);
