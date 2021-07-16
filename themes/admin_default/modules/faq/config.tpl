@@ -4,11 +4,19 @@
         <table class="table table-striped table-bordered table-hover">
             <tbody>
                 <tr>
-                    <td width="260">{LANG.config_type_main}</td>
-                    <td><select class="form-control" name="type_main">
-                            <!-- BEGIN: type_main -->
-                            <option value="{TYPE_MAIN.key}"{TYPE_MAIN.selected}>{TYPE_MAIN.title}</option>
-                            <!-- END: type_main -->
+                    <td width="260">{LANG.per_page}</td>
+                    <td><select class="form-control w50" name="per_page">
+                            <!-- BEGIN: per_page -->
+                            <option value="{PP_OPTION.num}"{PP_OPTION.sel}>{PP_OPTION.num}</option>
+                            <!-- END: per_page -->
+                    </select></td>
+                </tr>
+                <tr>
+                    <td width="260">{LANG.per_cat}</td>
+                    <td><select class="form-control w50" name="per_cat">
+                            <!-- BEGIN: per_cat -->
+                            <option value="{PC_OPTION.num}"{PC_OPTION.sel}>{PC_OPTION.num}</option>
+                            <!-- END: per_cat -->
                     </select></td>
                 </tr>
             </tbody>

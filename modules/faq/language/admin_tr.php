@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language Türkçe
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Oct 25, 2012, 03:11:41 PM
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
 $lang_translator['author'] = 'Nukevietdestek.com (destek@nukevietdestek.com)';
@@ -56,9 +57,10 @@ $lang_module['faq_manager'] = 'FAQ Yönetimi';
 $lang_module['faq_pos'] = 'Pozisyon';
 $lang_module['faq_feature'] = 'Seçenekler';
 $lang_module['faq_active'] = 'Aktif';
-$lang_module['nocat'] = 'Herhangi bir konu değil altında';
+$lang_module['nocat'] = 'Genel Sorular';
 $lang_module['config'] = 'Modül ayarları';
-$lang_module['config_type_main'] = 'Yollar ana sayfasında göstermek için';
-$lang_module['config_type_main_0'] = 'Gösteren konular';
-$lang_module['config_type_main_1'] = 'Liste, yeni ilk';
-$lang_module['config_type_main_2'] = 'Liste, eski birinci';
+$lang_module['faq_cat_notfound'] = 'Kategoriyi bulamıyorum';
+$lang_module['delcat_msg_cat'] = 'Kategoride %d alt kategorisi olduğu için silinemez';
+$lang_module['delcat_msg_rows'] = 'Kategoride %d soru olduğu için silinemiyor';
+$lang_module['per_page'] = 'Sayfa başına soru-cevap sayısı';
+$lang_module['per_cat'] = 'Bir kategorideki soru sayısı';

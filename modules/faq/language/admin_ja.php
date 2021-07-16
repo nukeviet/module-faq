@@ -1,19 +1,21 @@
 <?php
 
 /**
- * @Project NUKEVIET 3.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2012 VINADES.,JSC. All rights reserved
- * @Language 日本語
- * @Createdate Apr 15, 2011, 08:22:00 AM
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
-$lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
+$lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
 $lang_translator['createdate'] = '15/04/2011, 15:22';
-$lang_translator['copyright'] = '@Copyright (C) 2010 VINADES.,JSC. All rights reserved';
+$lang_translator['copyright'] = '@Copyright (C) 2009-2021 VINADES.,JSC. All rights reserved';
 $lang_translator['info'] = 'Language translated from http://translate.nukeviet.vn';
 $lang_translator['langtype'] = 'lang_module';
 
@@ -55,9 +57,10 @@ $lang_module['faq_manager'] = 'FAQ管理';
 $lang_module['faq_pos'] = '位置';
 $lang_module['faq_feature'] = '機能';
 $lang_module['faq_active'] = '有効';
-$lang_module['nocat'] = 'どんなカテゴリにも属さない';
+$lang_module['nocat'] = '一般的な質問';
 $lang_module['config'] = 'モジュール構成';
-$lang_module['config_type_main'] = 'トップページに表示する方法';
-$lang_module['config_type_main_0'] = 'トピック表示';
-$lang_module['config_type_main_1'] = '上記の新しいリスト';
-$lang_module['config_type_main_2'] = '上記の古いリスト';
+$lang_module['faq_cat_notfound'] = 'カテゴリが見つかりません';
+$lang_module['delcat_msg_cat'] = 'カテゴリに%dつのサブカテゴリがあるため、削除できません';
+$lang_module['delcat_msg_rows'] = 'カテゴリに%dつの質問があるため、削除できません';
+$lang_module['per_page'] = '1ページあたりのQ＆A数';
+$lang_module['per_cat'] = '1つのカテゴリの質問の数';

@@ -1,21 +1,22 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language česky
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Oct 25, 2012, 03:11:34 PM
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
-$lang_translator['author'] = '';
-$lang_translator['createdate'] = '';
-$lang_translator['copyright'] = '';
-$lang_translator['info'] = 'Language translated by http://translate.google.com';
+$lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
+$lang_translator['createdate'] = '15/04/2011, 15:22';
+$lang_translator['copyright'] = '@Copyright (C) 2009-2021 VINADES.,JSC. All rights reserved';
+$lang_translator['info'] = 'Language translated from http://translate.nukeviet.vn';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['faq_catmanager'] = 'správce kategorie';
@@ -56,9 +57,10 @@ $lang_module['faq_manager'] = 'správce často kladené otázky';
 $lang_module['faq_pos'] = 'Umístění';
 $lang_module['faq_feature'] = 'Funkce';
 $lang_module['faq_active'] = 'Aktivity';
-$lang_module['nocat'] = 'Žádná témata';
+$lang_module['nocat'] = 'Všeobecné otázky';
 $lang_module['config'] = 'configurace';
-$lang_module['config_type_main'] = 'Configurace hlavní stránka';
-$lang_module['config_type_main_0'] = 'Zobrazit témata';
-$lang_module['config_type_main_1'] = 'Nějnověší';
-$lang_module['config_type_main_2'] = 'Nějstarší';
+$lang_module['faq_cat_notfound'] = 'Nelze najít kategorii';
+$lang_module['delcat_msg_cat'] = 'Nelze smazat, protože existuje %d závislých podkategorií';
+$lang_module['delcat_msg_rows'] = 'Nelze smazat, protože v kategorii je %d otázek';
+$lang_module['per_page'] = 'Počet otázek a odpovědí na stránku';
+$lang_module['per_cat'] = 'Počet otázek v jedné kategorii';

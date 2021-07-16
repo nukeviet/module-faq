@@ -1,21 +1,22 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language English
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Oct 25, 2012, 04:42:13 PM
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
-$lang_translator['author'] = '';
-$lang_translator['createdate'] = '';
-$lang_translator['copyright'] = '';
-$lang_translator['info'] = '';
+$lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
+$lang_translator['createdate'] = '15/04/2011, 15:22';
+$lang_translator['copyright'] = '@Copyright (C) 2009-2021 VINADES.,JSC. All rights reserved';
+$lang_translator['info'] = 'Language translated from http://translate.nukeviet.vn';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['faq_catmanager'] = 'Manage category';
@@ -56,9 +57,10 @@ $lang_module['faq_manager'] = 'Manage FAQ';
 $lang_module['faq_pos'] = 'Position';
 $lang_module['faq_feature'] = 'Features';
 $lang_module['faq_active'] = 'Active';
-$lang_module['nocat'] = 'Not under any topic';
+$lang_module['nocat'] = 'General questions';
 $lang_module['config'] = 'Module configuration';
-$lang_module['config_type_main'] = 'Ways to show on the home page';
-$lang_module['config_type_main_0'] = 'Displaying Topics';
-$lang_module['config_type_main_1'] = 'List, newer first';
-$lang_module['config_type_main_2'] = 'List, oldest First';
+$lang_module['faq_cat_notfound'] = 'Can\'t find the category';
+$lang_module['delcat_msg_cat'] = 'Can\'t delete because there are %d dependent subcategories';
+$lang_module['delcat_msg_rows'] = 'Can\'t delete because there are %d questions in the category';
+$lang_module['per_page'] = 'Number of Q&A on a page';
+$lang_module['per_cat'] = 'Number of questions in one category';

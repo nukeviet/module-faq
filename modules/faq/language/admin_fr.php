@@ -1,15 +1,16 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @Language Français
- * @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Sep 01, 2010, 05:00:00 PM
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
 $lang_translator['author'] = 'Phạm Chí Quang';
@@ -56,9 +57,10 @@ $lang_module['faq_manager'] = 'Gestion de questions/réponses';
 $lang_module['faq_pos'] = 'Position';
 $lang_module['faq_feature'] = 'Fonctionalité';
 $lang_module['faq_active'] = 'Actif';
-$lang_module['nocat'] = 'Ne pas appartenir à aucune catégorie';
+$lang_module['nocat'] = 'Questions générales';
 $lang_module['config'] = 'Configuration du module';
-$lang_module['config_type_main'] = 'Affiche sur l’accueil';
-$lang_module['config_type_main_0'] = 'Afficher le catégories';
-$lang_module['config_type_main_1'] = 'Nouveau en haut';
-$lang_module['config_type_main_2'] = 'ancien en haut';
+$lang_module['faq_cat_notfound'] = 'Aucune catégorie trouvée';
+$lang_module['delcat_msg_cat'] = 'Impossible de supprimer car il y a %d sous-catégories dépendantes';
+$lang_module['delcat_msg_rows'] = 'Impossible de supprimer car il y a %d questions dans la catégorie';
+$lang_module['per_page'] = 'Nombre de questions/réponses par page';
+$lang_module['per_cat'] = 'Nombre de questions dans une catégorie';

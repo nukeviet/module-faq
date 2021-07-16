@@ -1,61 +1,64 @@
 <?php
 
 /**
- * @Project NUKEVIET 4.x
- * @Author VINADES.,JSC (contact@vinades.vn)
- * @Copyright (C) 2014 VINADES.,JSC. All rights reserved
- * @License GNU/GPL version 2 or any later version
- * @Createdate 28/8/2010, 23:11
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
  */
+
 if (!defined('NV_IS_FILE_MODULES')) {
-    die('Stop!!!');
+    exit('Stop!!!');
 }
 
 //ALTER TABLE`nv4_vi_faq_categories DROP who_view;
 
-$sql_drop_module = array();
+$sql_drop_module = [];
 
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "";
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories";
-$sql_drop_module[] = "DROP TABLE IF EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config";
+$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . '';
+$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . '_categories';
+$sql_drop_module[] = 'DROP TABLE IF EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . '_config';
 
 $sql_create_module = $sql_drop_module;
 
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . " (
-  id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  catid mediumint(8) unsigned NOT NULL,
-  title varchar(250) NOT NULL,
-  alias varchar(250) NOT NULL,
-  question mediumtext NOT NULL,
-  answer mediumtext NOT NULL,
-  weight smallint(4) unsigned NOT NULL DEFAULT '0',
-  status tinyint(1) unsigned NOT NULL DEFAULT '0',
-  addtime int(11) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  UNIQUE KEY alias (alias),
-  KEY catid (catid)
-)ENGINE=MyISAM";
+$sql_create_module[] = 'CREATE TABLE IF NOT EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . " (
+	`id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`catid` MEDIUMINT(8) UNSIGNED NOT NULL,
+	`title` VARCHAR(250) NOT NULL,
+	`alias` VARCHAR(250) NOT NULL,
+	`question` MEDIUMTEXT NOT NULL,
+	`answer` MEDIUMTEXT NOT NULL,
+	`weight` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0',
+	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+	`addtime` INT(11) UNSIGNED NOT NULL DEFAULT '0',
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `alias` (`alias`(191)),
+	INDEX `catid` (`catid`)
+)";
 
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_categories (
-  id mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
-  parentid mediumint(8) unsigned NOT NULL,
-  title varchar(250) NOT NULL,
-  alias varchar(250) NOT NULL,
-  description mediumtext NOT NULL,
-  groups_view varchar(255) NOT NULL,
-  weight smallint(4) unsigned NOT NULL DEFAULT '0',
-  status tinyint(1) unsigned NOT NULL DEFAULT '0',
-  keywords mediumtext NOT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY alias (alias)  
-)ENGINE=MyISAM";
+$sql_create_module[] = 'CREATE TABLE IF NOT EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . "_categories (
+	`id` MEDIUMINT(8) UNSIGNED NOT NULL AUTO_INCREMENT,
+	`parentid` MEDIUMINT(8) UNSIGNED NOT NULL,
+	`title` VARCHAR(250) NOT NULL,
+	`alias` VARCHAR(250) NOT NULL,
+	`description` MEDIUMTEXT NOT NULL,
+	`groups_view` VARCHAR(255) NOT NULL,
+	`weight` SMALLINT(4) UNSIGNED NOT NULL DEFAULT '0',
+	`status` TINYINT(1) UNSIGNED NOT NULL DEFAULT '0',
+	`keywords` MEDIUMTEXT NOT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE INDEX `alias` (`alias`(191))
+)";
 
 // Config
-$sql_create_module[] = "CREATE TABLE IF NOT EXISTS " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config (
-  config_name varchar(30) NOT NULL,
-  config_value varchar(255) NOT NULL,
-  UNIQUE KEY config_name (config_name)
-)ENGINE=MyISAM";
+$sql_create_module[] = 'CREATE TABLE IF NOT EXISTS ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . "_config (
+	`config_name` VARCHAR(50) NOT NULL,
+	`config_value` VARCHAR(255) NOT NULL,
+	UNIQUE INDEX `config_name` (`config_name`)
+)";
 
-$sql_create_module[] = "INSERT INTO " . $db_config['prefix'] . "_" . $lang . "_" . $module_data . "_config VALUES
-('type_main', '0')";
+$sql_create_module[] = 'INSERT INTO ' . $db_config['prefix'] . '_' . $lang . '_' . $module_data . "_config VALUES
+('per_page', '30'),
+('per_cat', '5')";
