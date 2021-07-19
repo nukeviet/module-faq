@@ -28,7 +28,7 @@ if (empty($list_cats) and !$module_setting['type_main']) {
 //Xem theo chu de
 if (!empty($alias) and $catid) {
     $page_url .= '&amp;' . NV_OP_VARIABLE . '=' . $alias;
-    $canonicalUrl = getCanonicalUrl($page_url, true, true);
+    $canonicalUrl = getCanonicalUrl($page_url);
     $page_title = $module_info['custom_title'] . " - " . $list_cats[$catid]['title'];
     $description = $list_cats[$catid]['description'];
     $mod_title = $list_cats[$catid]['name'];
@@ -60,10 +60,10 @@ if (!empty($alias) and $catid) {
     include NV_ROOTDIR . '/includes/footer.php';
     exit();
 } elseif ($module_setting['type_main'] == 0) {
-    $canonicalUrl = getCanonicalUrl($page_url, true, true);
+    $canonicalUrl = getCanonicalUrl($page_url);
     $contents = theme_main_faq($list_cats);
 } elseif ($module_setting['type_main'] == 1 or $module_setting['type_main'] == 2) {
-    $canonicalUrl = getCanonicalUrl($page_url, true, true);
+    $canonicalUrl = getCanonicalUrl($page_url);
     $order = ($module_setting['type_main'] == 1) ? "DESC" : "ASC";
     
     $query = "SELECT id,title, question, answer FROM " . NV_PREFIXLANG . "_" . $module_data . " WHERE status=1 ORDER BY addtime " . $order;
