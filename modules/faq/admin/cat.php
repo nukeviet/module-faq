@@ -84,6 +84,7 @@ if ($nv_Request->isset_request('add', 'get')) {
                 $error = $lang_module['faq_error_cat4'];
                 $is_error = true;
             } else {
+                $nv_Cache->delMod($module_name);
                 nv_insert_logs(NV_LANG_DATA, $module_name, 'log_add_cat', 'cat ' . $catid, $admin_info['userid']);
                 header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=cat');
                 exit();
