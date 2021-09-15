@@ -240,7 +240,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
                 if ($array['parentid'] != $row['parentid']) {
                     nv_FixWeightCat($row['parentid']);
                 }
-
+                $nv_Cache->delMod($module_name);
                 header('Location: ' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=cat');
                 exit();
             }
@@ -337,6 +337,7 @@ if ($nv_Request->isset_request('del', 'post')) {
     $db->query($sql);
 
     nv_FixWeightCat($parentid);
+    $nv_Cache->delMod($module_name);
 
     exit('OK');
 }
@@ -375,6 +376,7 @@ if ($nv_Request->isset_request('changeweight', 'post')) {
     }
     $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_categories SET weight=' . $new . ' WHERE id=' . $catid;
     $db->query($sql);
+    $nv_Cache->delMod($module_name);
     exit('OK');
 }
 
@@ -402,6 +404,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
 
     $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . '_categories SET status=' . $status . ' WHERE id=' . $catid;
     $db->query($sql);
+    $nv_Cache->delMod($module_name);
     exit('OK');
 }
 
