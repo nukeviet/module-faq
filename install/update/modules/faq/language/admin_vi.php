@@ -1,22 +1,22 @@
 <?php
 
 /**
-* @Project NUKEVIET 4.x
-* @Author VINADES.,JSC (contact@vinades.vn)
-* @Copyright (C) 2014 VINADES.,JSC. All rights reserved
-* @Language Tiếng Việt
-* @License CC BY-SA (http://creativecommons.org/licenses/by-sa/4.0/)
- * @Createdate Mar 04, 2010, 03:22:00 PM
-*/
+ * NukeViet Content Management System
+ * @version 4.x
+ * @author VINADES.,JSC <contact@vinades.vn>
+ * @copyright (C) 2009-2021 VINADES.,JSC. All rights reserved
+ * @license GNU/GPL version 2 or any later version
+ * @see https://github.com/nukeviet The NukeViet CMS GitHub project
+ */
 
-if (! defined('NV_ADMIN') or ! defined('NV_MAINFILE')) {
-    die('Stop!!!');
+if (!defined('NV_ADMIN') or !defined('NV_MAINFILE')) {
+    exit('Stop!!!');
 }
 
-$lang_translator['author'] = 'VINADES.,JSC (contact@vinades.vn)';
-$lang_translator['createdate'] = '04/03/2010, 15:22';
-$lang_translator['copyright'] = '@Copyright (C) 2012 VINADES.,JSC. All rights reserved';
-$lang_translator['info'] = '';
+$lang_translator['author'] = 'VINADES.,JSC <contact@vinades.vn>';
+$lang_translator['createdate'] = '15/04/2011, 15:22';
+$lang_translator['copyright'] = '@Copyright (C) 2009-2021 VINADES.,JSC. All rights reserved';
+$lang_translator['info'] = 'Language translated from http://translate.nukeviet.vn';
 $lang_translator['langtype'] = 'lang_module';
 
 $lang_module['faq_catmanager'] = 'Quản lý chủ đề';
@@ -57,9 +57,10 @@ $lang_module['faq_manager'] = 'Quản lý câu hỏi thường gặp';
 $lang_module['faq_pos'] = 'Vị trí';
 $lang_module['faq_feature'] = 'Chức năng';
 $lang_module['faq_active'] = 'Hoạt động';
-$lang_module['nocat'] = 'Không thuộc chủ đề nào';
+$lang_module['nocat'] = 'Câu hỏi chung';
 $lang_module['config'] = 'Cấu hình module';
-$lang_module['config_type_main'] = 'Cách thể hiện trên trang chủ';
-$lang_module['config_type_main_0'] = 'Hiển thị các chủ đề';
-$lang_module['config_type_main_1'] = 'Danh sách mới lên trên';
-$lang_module['config_type_main_2'] = 'Danh sách cũ lên trên';
+$lang_module['faq_cat_notfound'] = 'Không tìm thấy chủ đề';
+$lang_module['delcat_msg_cat'] = 'Không xóa được do có %d chủ đề thành phần';
+$lang_module['delcat_msg_rows'] = 'Không xóa được do có %d câu hỏi thuộc chủ đề';
+$lang_module['per_page'] = 'Số lượng hỏi/đáp trên một trang';
+$lang_module['per_cat'] = 'Số lượng câu hỏi đăng cùng chủ đề';
