@@ -122,12 +122,17 @@ function nv_up_p1()
         'message' => ''
     );
 
-    try {
-        $db->query("DELETE FROM `nv4_vi_faq_config` WHERE `config_name`='type_main'");
-        $db->query("INSERT INTO `nv4_vi_faq_config` (`config_name`, `config_value`) VALUES ('per_page', '30')");
-        $db->query("INSERT INTO `nv4_vi_faq_config` (`config_name`, `config_value`) VALUES ('per_cat', '5')");
-    } catch (PDOException $e) {
-        trigger_error($e->getMessage());
+    foreach ($array_modlang_update as $lang => $array_mod) {
+        foreach ($array_mod['mod'] as $module_info) {
+            $table_prefix = $db_config['prefix'] . "_" . $lang . "_" . $module_info['module_data'];
+            try {
+                $db->query("DELETE FROM " . $table_prefix . "_config WHERE `config_name`='type_main'");
+                $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_page', '30')");
+                $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_cat', '5')");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+        }
     }
     return $return;
 }
