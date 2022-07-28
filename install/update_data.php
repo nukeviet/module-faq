@@ -36,9 +36,16 @@ $nv_update_config['lang'] = array();
 $nv_update_config['lang']['vi'] = array();
 
 // Tiếng Việt
+$nv_update_config['lang']['vi']['nv_up_p1'] = 'Cập nhật CSDL Module';
 $nv_update_config['lang']['vi']['nv_up_finish'] = 'Đánh dấu phiên bản mới';
 
 $nv_update_config['tasklist'] = array();
+$nv_update_config['tasklist'][] = array(
+    'r' => '4.5.00',
+    'rq' => 1,
+    'l' => 'nv_up_p1',
+    'f' => 'nv_up_p1'
+);
 $nv_update_config['tasklist'][] = array(
     'r' => '4.5.00',
     'rq' => 1,
@@ -94,6 +101,37 @@ while (list($_tmp) = $result->fetch(PDO::FETCH_NUM)) {
         $array_modtable_update[] = $db_config['prefix'] . "_" . $_tmp . "_" . $_modd;
     }
 }
+
+
+/**
+ * nv_up_p1()
+ *
+ * @return
+ *
+ */
+function nv_up_p1()
+{
+    global $nv_update_baseurl, $db, $db_config, $nv_Cache, $array_modlang_update;
+
+    $return = array(
+        'status' => 1,
+        'complete' => 1,
+        'next' => 1,
+        'link' => 'NO',
+        'lang' => 'NO',
+        'message' => ''
+    );
+
+    try {
+        $db->query("DELETE FROM `nv4_vi_faq_config` WHERE `config_name`='type_main'");
+        $db->query("INSERT INTO `nv4_vi_faq_config` (`config_name`, `config_value`) VALUES ('per_page', '30')");
+        $db->query("INSERT INTO `nv4_vi_faq_config` (`config_name`, `config_value`) VALUES ('per_cat', '5')");
+    } catch (PDOException $e) {
+        trigger_error($e->getMessage());
+    }
+    return $return;
+}
+
 
 /**
  * nv_up_finish()
