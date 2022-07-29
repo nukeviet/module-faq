@@ -127,7 +127,15 @@ function nv_up_p1()
             $table_prefix = $db_config['prefix'] . "_" . $lang . "_" . $module_info['module_data'];
             try {
                 $db->query("DELETE FROM " . $table_prefix . "_config WHERE `config_name`='type_main'");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+            try {
                 $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_page', '30')");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+            try {
                 $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_cat', '5')");
             } catch (PDOException $e) {
                 trigger_error($e->getMessage());
