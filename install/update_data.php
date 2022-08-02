@@ -17,17 +17,17 @@ $nv_update_config = array();
 $nv_update_config['type'] = 1;
 
 // ID goi cap nhat
-$nv_update_config['packageID'] = 'NVUFAQ4300';
+$nv_update_config['packageID'] = 'NVUFAQ4500';
 
 // Cap nhat cho module nao, de trong neu la cap nhat NukeViet, ten thu muc module neu la cap nhat module
 $nv_update_config['formodule'] = 'faq';
 
 // Thong tin phien ban, tac gia, ho tro
-$nv_update_config['release_date'] = 1510643021;
+$nv_update_config['release_date'] = 1658966400;
 $nv_update_config['author'] = 'VINADES.,JSC (contact@vinades.vn)';
-$nv_update_config['support_website'] = 'https://github.com/nukeviet/module-faq/tree/to-4.3.00';
-$nv_update_config['to_version'] = '4.3.00';
-$nv_update_config['allow_old_version'] = array('4.0.29', '4.1.00', '4.1.01', '4.1.02');
+$nv_update_config['support_website'] = 'https://github.com/nukeviet/module-faq/tree/to-4.5.00';
+$nv_update_config['to_version'] = '4.5.00';
+$nv_update_config['allow_old_version'] = array('4.0.29', '4.1.00', '4.1.01', '4.1.02', '4.3.00');
 
 // 0:Nang cap bang tay, 1:Nang cap tu dong, 2:Nang cap nua tu dong
 $nv_update_config['update_auto_type'] = 1;
@@ -36,11 +36,18 @@ $nv_update_config['lang'] = array();
 $nv_update_config['lang']['vi'] = array();
 
 // Tiếng Việt
+$nv_update_config['lang']['vi']['nv_up_p1'] = 'Cập nhật CSDL Module';
 $nv_update_config['lang']['vi']['nv_up_finish'] = 'Đánh dấu phiên bản mới';
 
 $nv_update_config['tasklist'] = array();
 $nv_update_config['tasklist'][] = array(
-    'r' => '4.3.00',
+    'r' => '4.5.00',
+    'rq' => 1,
+    'l' => 'nv_up_p1',
+    'f' => 'nv_up_p1'
+);
+$nv_update_config['tasklist'][] = array(
+    'r' => '4.5.00',
     'rq' => 1,
     'l' => 'nv_up_finish',
     'f' => 'nv_up_finish'
@@ -95,6 +102,50 @@ while (list($_tmp) = $result->fetch(PDO::FETCH_NUM)) {
     }
 }
 
+
+/**
+ * nv_up_p1()
+ *
+ * @return
+ *
+ */
+function nv_up_p1()
+{
+    global $nv_update_baseurl, $db, $db_config, $nv_Cache, $array_modlang_update;
+
+    $return = array(
+        'status' => 1,
+        'complete' => 1,
+        'next' => 1,
+        'link' => 'NO',
+        'lang' => 'NO',
+        'message' => ''
+    );
+
+    foreach ($array_modlang_update as $lang => $array_mod) {
+        foreach ($array_mod['mod'] as $module_info) {
+            $table_prefix = $db_config['prefix'] . "_" . $lang . "_" . $module_info['module_data'];
+            try {
+                $db->query("DELETE FROM " . $table_prefix . "_config WHERE `config_name`='type_main'");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+            try {
+                $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_page', '30')");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+            try {
+                $db->query("INSERT INTO " . $table_prefix . "_config (`config_name`, `config_value`) VALUES ('per_cat', '5')");
+            } catch (PDOException $e) {
+                trigger_error($e->getMessage());
+            }
+        }
+    }
+    return $return;
+}
+
+
 /**
  * nv_up_finish()
  *
@@ -114,10 +165,12 @@ function nv_up_finish()
         'message' => ''
     );
 
-    @nv_deletefile(NV_ROOTDIR . '/modules/faq/admin/.htaccess');
-    @nv_deletefile(NV_ROOTDIR . '/modules/faq/blocks/.htaccess');
-    @nv_deletefile(NV_ROOTDIR . '/modules/faq/funcs/.htaccess');
-    @nv_deletefile(NV_ROOTDIR . '/modules/faq/language/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/themes/admin_default/modules/faq/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/themes/default/images/faq/faq.gif');
+    @nv_deletefile(NV_ROOTDIR . '/themes/default/images/faq/top.gif');
+    @nv_deletefile(NV_ROOTDIR . '/themes/default/modules/faq/.htaccess');
+    @nv_deletefile(NV_ROOTDIR . '/themes/default/modules/faq/main_page.tpl');
+
 
     try {
         $num = $db->query("SELECT COUNT(*) FROM " . $db_config['prefix'] . "_setup_extensions WHERE basename='" . $nv_update_config['formodule'] . "' AND type='module'")->fetchColumn();
