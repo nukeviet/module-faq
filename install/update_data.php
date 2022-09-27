@@ -23,7 +23,7 @@ $nv_update_config['packageID'] = 'NVUFAQ4502';
 $nv_update_config['formodule'] = 'faq';
 
 // Thong tin phien ban, tac gia, ho tro
-$nv_update_config['release_date'] = 1658966400;
+$nv_update_config['release_date'] = 1664273599;
 $nv_update_config['author'] = 'VINADES.,JSC (contact@vinades.vn)';
 $nv_update_config['support_website'] = 'https://github.com/nukeviet/module-faq/tree/to-4.5.02';
 $nv_update_config['to_version'] = '4.5.02';
