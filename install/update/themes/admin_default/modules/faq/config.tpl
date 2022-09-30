@@ -5,7 +5,7 @@
             <tbody>
                 <tr>
                     <td width="260">{LANG.per_page}</td>
-                    <td><select class="form-control w50" name="per_page">
+                    <td><select class="form-control" name="per_page">
                             <!-- BEGIN: per_page -->
                             <option value="{PP_OPTION.num}"{PP_OPTION.sel}>{PP_OPTION.num}</option>
                             <!-- END: per_page -->
@@ -13,7 +13,7 @@
                 </tr>
                 <tr>
                     <td width="260">{LANG.per_cat}</td>
-                    <td><select class="form-control w50" name="per_cat">
+                    <td><select class="form-control" name="per_cat">
                             <!-- BEGIN: per_cat -->
                             <option value="{PC_OPTION.num}"{PC_OPTION.sel}>{PC_OPTION.num}</option>
                             <!-- END: per_cat -->
