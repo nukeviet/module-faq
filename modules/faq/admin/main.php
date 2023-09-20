@@ -31,12 +31,12 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
         }
 
         define('IS_EDIT', true);
-        $page_title = $lang_module['faq_editfaq'];
+        $page_title = $nv_Lang->getModule('faq_editfaq');
 
         $row = $result->fetch();
     } else {
         define('IS_ADD', true);
-        $page_title = $lang_module['faq_addfaq'];
+        $page_title = $nv_Lang->getModule('faq_addfaq');
     }
 
     $array = [];
@@ -55,16 +55,16 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
 
         if (empty($array['title'])) {
             $is_error = true;
-            $error = $lang_module['faq_error_title'];
+            $error = $nv_Lang->getModule('faq_error_title');
         } elseif ($db->query($sql)->fetchColumn()) {
             $is_error = true;
-            $error = $lang_module['faq_title_exists'];
+            $error = $nv_Lang->getModule('faq_title_exists');
         } elseif (empty($array['question'])) {
             $is_error = true;
-            $error = $lang_module['faq_error_question'];
+            $error = $nv_Lang->getModule('faq_error_question');
         } elseif (empty($array['answer'])) {
             $is_error = true;
-            $error = $lang_module['faq_error_answer'];
+            $error = $nv_Lang->getModule('faq_error_answer');
         } else {
             $array['question'] = nv_nl2br($array['question'], '<br />');
             $array['answer'] = nv_editor_nl2br($array['answer']);
@@ -90,7 +90,7 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
 
                 if (!$result) {
                     $is_error = true;
-                    $error = $lang_module['faq_error_notResult'];
+                    $error = $nv_Lang->getModule('faq_error_notResult');
                 } else {
                     $array['catid'] && nv_update_keywords($array['catid']);
 
@@ -119,7 +119,7 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
 
                 if (!$db->insert_id($sql)) {
                     $is_error = true;
-                    $error = $lang_module['faq_error_notResult2'];
+                    $error = $nv_Lang->getModule('faq_error_notResult2');
                 } else {
                     $array['catid'] && nv_update_keywords($array['catid']);
 
@@ -150,7 +150,7 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
     $listcats = [];
     $listcats[0] = [
         'id' => 0,
-        'name' => $lang_module['nocat'],
+        'name' => $nv_Lang->getModule('nocat'),
         'selected' => $array['catid'] == 0 ? ' selected="selected"' : ''
     ];
     $listcats = $listcats + nv_listcats($array['catid']);
@@ -177,7 +177,7 @@ if ($nv_Request->isset_request('add', 'get') or $nv_Request->isset_request('edit
         $xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;add=1');
     }
 
-    $xtpl->assign('LANG', $lang_module);
+    $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
     $xtpl->assign('DATA', $array);
 
     if (!empty($error)) {
@@ -309,8 +309,8 @@ if ($nv_Request->isset_request('del', 'post')) {
 $listcats = [];
 $listcats[0] = [
     'id' => 0,
-    'name' => $lang_module['nocat'],
-    'title' => $lang_module['nocat']
+    'name' => $nv_Lang->getModule('nocat'),
+    'title' => $nv_Lang->getModule('nocat')
 ];
 $listcats = $listcats + nv_listcats(0);
 if (empty($listcats)) {
@@ -318,7 +318,7 @@ if (empty($listcats)) {
     exit();
 }
 
-$page_title = $lang_module['faq_manager'];
+$page_title = $nv_Lang->getModule('faq_manager');
 
 $page = $nv_Request->get_int('page', 'get', 0);
 $per_page = 30;
@@ -327,7 +327,7 @@ $base_url = NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_D
 
 $catid = $nv_Request->get_int('catid', 'get', 0);
 !isset($listcats[$catid]) && $catid = 0;
-$caption = $catid ? sprintf($lang_module['faq_list_by_cat'], $listcats[$catid]['title']) : $lang_module['faq_manager'];
+$caption = $catid ? sprintf($nv_Lang->getModule('faq_list_by_cat'), $listcats[$catid]['title']) : $nv_Lang->getModule('faq_manager');
 
 if ($catid) {
     $base_url .= '&amp;catid=' . $catid;
@@ -369,8 +369,8 @@ while ($row = $query->fetch()) {
 $generate_page = nv_generate_page($base_url, $all_page, $per_page, $page);
 
 $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
-$xtpl->assign('LANG', $lang_module);
-$xtpl->assign('GLANG', $lang_global);
+$xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
+$xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
 $xtpl->assign('TABLE_CAPTION', $caption);
 $xtpl->assign('ADD_NEW_FAQ', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;add=1');
 $xtpl->assign('URL', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name);

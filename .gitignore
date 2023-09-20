@@ -24,6 +24,11 @@
 /uploads/
 /vendor/
 /error.php
+/.buildpath
+/LICENSE
+/api.php
+/mload.php
+/sload.php
 
 # Ignore fix module files and directories.
 /modules/*
@@ -42,4 +47,3 @@
 !/themes/default/images/faq/*
 !/themes/default/modules/faq
 !/themes/default/modules/faq/*
-/.buildpath

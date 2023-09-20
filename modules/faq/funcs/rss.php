@@ -16,7 +16,7 @@ if (!defined('NV_IS_MOD_FAQ')) {
 $channel = [];
 $items = [];
 
-$channel['title'] = $module_info['custom_title'] . ' - ' . $lang_module['general_questions'];
+$channel['title'] = $module_info['custom_title'] . ' - ' . $nv_Lang->getModule('general_questions');
 $channel['link'] = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 $channel['description'] = !empty($module_info['description']) ? $module_info['description'] : $global_config['site_description'];
 $atomlink = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $module_info['alias']['rss'];
@@ -61,7 +61,7 @@ if ($module_info['rss']) {
                 'title' => $title,
                 'link' => $link . '/question-' . $id,
                 'guid' => $module_name . '_' . $id,
-                'description' => $lang_module['faq_question'] . ': ' . $question,
+                'description' => $nv_Lang->getModule('faq_question') . ': ' . $question,
                 'pubdate' => $addtime
             ];
         }

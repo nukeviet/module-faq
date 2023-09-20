@@ -15,7 +15,7 @@ if (!defined('NV_IS_MOD_FAQ')) {
 
 $page_title = $mod_title = $module_info['custom_title'];
 $key_words = $module_info['keywords'];
-$description = $lang_module['faq_welcome'];
+$description = $nv_Lang->getModule('faq_welcome');
 $page_url = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
 /* if ('mobile_default' != $global_config['module_theme']) {
     $module_info['layout_funcs'][$op_file] = 'main';

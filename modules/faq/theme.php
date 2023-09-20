@@ -25,15 +25,15 @@ if (!defined('NV_IS_MOD_FAQ')) {
  */
 function theme_main_faq($catid, $items, $subcats, $subitems, $pages)
 {
-    global $list_cats, $id, $lang_module, $lang_global, $module_info;
+    global $list_cats, $id, $module_info, $nv_Lang;
 
     $xtpl = new XTemplate('main.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
-    $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
+    $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
 
     $cat = $catid ? $list_cats[$catid] : [
-        'title' => $lang_module['faq'],
-        'description' => $lang_module['faq_welcome']
+        'title' => $nv_Lang->getModule('faq'),
+        'description' => $nv_Lang->getModule('faq_welcome')
     ];
 
     $xtpl->assign('CAT', $cat);

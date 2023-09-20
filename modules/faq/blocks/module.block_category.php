@@ -18,7 +18,7 @@ global $catid;
 if (!nv_function_exists('nv_faq_category')) {
     function nv_faq_category()
     {
-        global $list_cats, $module_name, $module_info, $catid, $lang_module;
+        global $list_cats, $module_name, $module_info, $catid, $nv_Lang;
 
         $xtpl = new XTemplate('block_category.tpl', NV_ROOTDIR . '/themes/' . $module_info['template'] . '/modules/' . $module_info['module_theme']);
         $xtpl->assign('TEMPLATE', $module_info['template']);
@@ -28,7 +28,7 @@ if (!nv_function_exists('nv_faq_category')) {
             $licss = empty($catid) ? ' class="home active"' : ' class="home"';
             $html = '<ul class="level-0">';
             $html .= '<li' . $licss . '>';
-            $html .= '<a title="' . $lang_module['main_page'] . '" href="' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '">' . $lang_module['main_page'] . '</a>';
+            $html .= '<a title="' . $nv_Lang->getModule('main_page') . '" href="' . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '">' . $nv_Lang->getModule('main_page') . '</a>';
             $html .= '</li>';
 
             foreach ($list_cats as $cat) {

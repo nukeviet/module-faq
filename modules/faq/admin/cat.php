@@ -20,7 +20,7 @@ $error = '';
 
 //them chu de
 if ($nv_Request->isset_request('add', 'get')) {
-    $page_title = $lang_module['faq_addcat_titlebox'];
+    $page_title = $nv_Lang->getModule('faq_addcat_titlebox');
 
     $is_error = false;
 
@@ -35,7 +35,7 @@ if ($nv_Request->isset_request('add', 'get')) {
         $array['alias'] = change_alias($array['title']);
 
         if (empty($array['title'])) {
-            $error = $lang_module['faq_error_cat2'];
+            $error = $nv_Lang->getModule('faq_error_cat2');
             $is_error = true;
         } else {
             if (!empty($array['parentid'])) {
@@ -44,7 +44,7 @@ if ($nv_Request->isset_request('add', 'get')) {
                 $count = $result->fetchColumn();
 
                 if (!$count) {
-                    $error = $lang_module['faq_error_cat3'];
+                    $error = $nv_Lang->getModule('faq_error_cat3');
                     $is_error = true;
                 }
             }
@@ -55,7 +55,7 @@ if ($nv_Request->isset_request('add', 'get')) {
                 $count = $result->fetchColumn();
 
                 if ($count) {
-                    $error = $lang_module['faq_error_cat1'];
+                    $error = $nv_Lang->getModule('faq_error_cat1');
                     $is_error = true;
                 }
             }
@@ -81,7 +81,7 @@ if ($nv_Request->isset_request('add', 'get')) {
             $stmt->bindParam(':groups_view', $array['groups_view'], PDO::PARAM_STR);
             $stmt->execute();
             if (!$catid = $db->lastInsertId()) {
-                $error = $lang_module['faq_error_cat4'];
+                $error = $nv_Lang->getModule('faq_error_cat4');
                 $is_error = true;
             } else {
                 $nv_Cache->delMod($module_name);
@@ -101,7 +101,7 @@ if ($nv_Request->isset_request('add', 'get')) {
     $listcats = [
         [
             'id' => 0,
-            'name' => $lang_module['faq_category_cat_maincat'],
+            'name' => $nv_Lang->getModule('faq_category_cat_maincat'),
             'selected' => ''
         ]
     ];
@@ -120,8 +120,8 @@ if ($nv_Request->isset_request('add', 'get')) {
 
     $xtpl = new XTemplate('cat_add.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
     $xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;add=1');
-    $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
+    $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
     $xtpl->assign('DATA', $array);
 
     if (!empty($error)) {
@@ -151,7 +151,7 @@ if ($nv_Request->isset_request('add', 'get')) {
 
 //Sua chu de
 if ($nv_Request->isset_request('edit', 'get')) {
-    $page_title = $lang_module['faq_editcat_cat'];
+    $page_title = $nv_Lang->getModule('faq_editcat_cat');
 
     $catid = $nv_Request->get_int('catid', 'get', 0);
 
@@ -184,7 +184,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
         $array['alias'] = change_alias($array['title']);
 
         if (empty($array['title'])) {
-            $error = $lang_module['faq_error_cat2'];
+            $error = $nv_Lang->getModule('faq_error_cat2');
             $is_error = true;
         } else {
             if (!empty($array['parentid'])) {
@@ -193,7 +193,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
                 $count = $result->fetchColumn();
 
                 if (!$count) {
-                    $error = $lang_module['faq_error_cat3'];
+                    $error = $nv_Lang->getModule('faq_error_cat3');
                     $is_error = true;
                 }
             }
@@ -204,7 +204,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
                 $count = $result->fetchColumn();
 
                 if ($count) {
-                    $error = $lang_module['faq_error_cat1'];
+                    $error = $nv_Lang->getModule('faq_error_cat1');
                     $is_error = true;
                 }
             }
@@ -234,7 +234,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
             $stmt->bindParam(':groups_view', $array['groups_view'], PDO::PARAM_STR);
 
             if (!$stmt->execute()) {
-                $error = $lang_module['faq_error_cat5'];
+                $error = $nv_Lang->getModule('faq_error_cat5');
                 $is_error = true;
             } else {
                 if ($array['parentid'] != $row['parentid']) {
@@ -256,7 +256,7 @@ if ($nv_Request->isset_request('edit', 'get')) {
     $listcats = [
         [
             'id' => 0,
-            'name' => $lang_module['faq_category_cat_maincat'],
+            'name' => $nv_Lang->getModule('faq_category_cat_maincat'),
             'selected' => ''
         ]
     ];
@@ -274,8 +274,8 @@ if ($nv_Request->isset_request('edit', 'get')) {
 
     $xtpl = new XTemplate('cat_add.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
     $xtpl->assign('FORM_ACTION', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $op . '&amp;edit=1&amp;catid=' . $catid);
-    $xtpl->assign('LANG', $lang_module);
-    $xtpl->assign('GLANG', $lang_global);
+    $xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
+    $xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
     $xtpl->assign('DATA', $array);
 
     if (!empty($error)) {
@@ -312,7 +312,7 @@ if ($nv_Request->isset_request('del', 'post')) {
     $catid = $nv_Request->get_int('catid', 'post', 0);
 
     if (empty($catid)) {
-        exit('NO_' . $lang_module['faq_cat_notfound']);
+        exit('NO_' . $nv_Lang->getModule('faq_cat_notfound'));
     }
 
     $sql = 'SELECT COUNT(*) AS count, parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE id=' . $catid;
@@ -320,17 +320,17 @@ if ($nv_Request->isset_request('del', 'post')) {
     list($count, $parentid) = $result->fetch(3);
 
     if ($count != 1) {
-        exit('NO_' . $lang_module['faq_cat_notfound']);
+        exit('NO_' . $nv_Lang->getModule('faq_cat_notfound'));
     }
 
     $check_exists = $db->query('SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE parentid = ' . $catid)->fetchColumn();
     if (!empty($check_exists)) {
-        exit('NO_' . sprintf($lang_module['delcat_msg_cat'], $check_exists));
+        exit('NO_' . sprintf($nv_Lang->getModule('delcat_msg_cat'), $check_exists));
     }
 
     $check_exists = $db->query('SELECT COUNT(*) FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE catid = ' . $catid)->fetchColumn();
     if (!empty($check_exists)) {
-        exit('NO_' . sprintf($lang_module['delcat_msg_rows'], $check_exists));
+        exit('NO_' . sprintf($nv_Lang->getModule('delcat_msg_rows'), $check_exists));
     }
 
     $sql = 'DELETE FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE id=' . $catid;
@@ -409,7 +409,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
 }
 
 //Danh sach chu de
-$page_title = $lang_module['faq_catmanager'];
+$page_title = $nv_Lang->getModule('faq_catmanager');
 
 $pid = $nv_Request->get_int('pid', 'get', 0);
 
@@ -430,11 +430,11 @@ if ($pid) {
     $sql2 = 'SELECT title,parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE id=' . $pid;
     $result2 = $db->query($sql2);
     list($parentid, $parentid2) = $result2->fetch(3);
-    $caption = sprintf($lang_module['faq_table_caption2'], $parentid);
+    $caption = sprintf($nv_Lang->getModule('faq_table_caption2'), $parentid);
     $parentid = '<a href="' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=cat&amp;pid=' . $parentid2 . '">' . $parentid . '</a>';
 } else {
-    $caption = $lang_module['faq_table_caption1'];
-    $parentid = $lang_module['faq_category_cat_maincat'];
+    $caption = $nv_Lang->getModule('faq_table_caption1');
+    $parentid = $nv_Lang->getModule('faq_category_cat_maincat');
 }
 
 $list = [];
@@ -443,7 +443,7 @@ $a = 0;
 while ($row = $result->fetch()) {
     $numsub = $db->query('SELECT id FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE parentid=' . $row['id'])->rowCount();
     if ($numsub) {
-        $numsub = ' (<a href="' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=cat&amp;pid=' . $row['id'] . '">' . $numsub . ' ' . $lang_module['faq_category_cat_sub'] . '</a>)';
+        $numsub = ' (<a href="' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=cat&amp;pid=' . $row['id'] . '">' . $numsub . ' ' . $nv_Lang->getModule('faq_category_cat_sub') . '</a>)';
     } else {
         $numsub = '';
     }
@@ -474,8 +474,8 @@ while ($row = $result->fetch()) {
 $xtpl = new XTemplate('cat_list.tpl', NV_ROOTDIR . '/themes/' . $global_config['module_theme'] . '/modules/' . $module_file);
 $xtpl->assign('ADD_NEW_CAT', NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=cat&amp;add=1');
 $xtpl->assign('TABLE_CAPTION', $caption);
-$xtpl->assign('GLANG', $lang_global);
-$xtpl->assign('LANG', $lang_module);
+$xtpl->assign('GLANG', \NukeViet\Core\Language::$lang_global);
+$xtpl->assign('LANG', \NukeViet\Core\Language::$lang_module);
 
 foreach ($list as $row) {
     $xtpl->assign('ROW', $row);

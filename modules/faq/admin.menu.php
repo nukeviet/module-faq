@@ -13,5 +13,5 @@ if (!defined('NV_ADMIN')) {
     exit('Stop!!!');
 }
 
-$submenu['cat'] = $lang_module['faq_catmanager'];
-$submenu['config'] = $lang_module['config'];
+$submenu['cat'] = $nv_Lang->getModule('faq_catmanager');
+$submenu['config'] = $nv_Lang->getModule('config');
