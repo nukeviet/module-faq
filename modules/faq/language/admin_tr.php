@@ -64,3 +64,4 @@ $lang_module['delcat_msg_cat'] = 'Kategoride %d alt kategorisi olduğu için sil
 $lang_module['delcat_msg_rows'] = 'Kategoride %d soru olduğu için silinemiyor';
 $lang_module['per_page'] = 'Sayfa başına soru-cevap sayısı';
 $lang_module['per_cat'] = 'Bir kategorideki soru sayısı';
+$lang_module['faq_keywords'] = 'Anahtar kelimeler';

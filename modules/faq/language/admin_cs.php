@@ -64,3 +64,4 @@ $lang_module['delcat_msg_cat'] = 'Nelze smazat, protože existuje %d závislých
 $lang_module['delcat_msg_rows'] = 'Nelze smazat, protože v kategorii je %d otázek';
 $lang_module['per_page'] = 'Počet otázek a odpovědí na stránku';
 $lang_module['per_cat'] = 'Počet otázek v jedné kategorii';
+$lang_module['faq_keywords'] = 'Klíčová slova';

@@ -64,3 +64,4 @@ $lang_module['delcat_msg_cat'] = 'カテゴリに%dつのサブカテゴリが�
 $lang_module['delcat_msg_rows'] = 'カテゴリに%dつの質問があるため、削除できません';
 $lang_module['per_page'] = '1ページあたりのQ＆A数';
 $lang_module['per_cat'] = '1つのカテゴリの質問の数';
+$lang_module['faq_keywords'] = 'キーワード';

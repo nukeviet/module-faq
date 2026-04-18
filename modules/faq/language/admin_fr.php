@@ -64,3 +64,4 @@ $lang_module['delcat_msg_cat'] = 'Impossible de supprimer car il y a %d sous-cat
 $lang_module['delcat_msg_rows'] = 'Impossible de supprimer car il y a %d questions dans la catégorie';
 $lang_module['per_page'] = 'Nombre de questions/réponses par page';
 $lang_module['per_cat'] = 'Nombre de questions dans une catégorie';
+$lang_module['faq_keywords'] = 'Mots-clés';

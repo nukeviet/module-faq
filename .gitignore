@@ -43,3 +43,4 @@
 !/themes/default/modules/faq
 !/themes/default/modules/faq/*
 /.buildpath
+/api.php

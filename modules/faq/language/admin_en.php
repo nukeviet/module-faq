@@ -64,3 +64,4 @@ $lang_module['delcat_msg_cat'] = 'Can\'t delete because there are %d dependent s
 $lang_module['delcat_msg_rows'] = 'Can\'t delete because there are %d questions in the category';
 $lang_module['per_page'] = 'Number of Q&A on a page';
 $lang_module['per_cat'] = 'Number of questions in one category';
+$lang_module['faq_keywords'] = 'Keywords';
