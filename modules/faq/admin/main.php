@@ -265,7 +265,7 @@ if ($nv_Request->isset_request('changestatus', 'post')) {
         exit('NO');
     }
 
-    list($catid, $status) = $result->fetch(3);
+    list($catid, $status) = $result->fetch(3) ?: [null, null];
     $status = $status ? 0 : 1;
 
     $sql = 'UPDATE ' . NV_PREFIXLANG . '_' . $module_data . ' SET status=' . $status . ' WHERE id=' . $id;
@@ -290,7 +290,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
     $sql = 'SELECT COUNT(*) AS count, catid FROM ' . NV_PREFIXLANG . '_' . $module_data . ' WHERE id=' . $id;
     $result = $db->query($sql);
-    list($count, $catid) = $result->fetch(3);
+    list($count, $catid) = $result->fetch(3) ?: [null, null];
 
     if ($count != 1) {
         exit('NO');

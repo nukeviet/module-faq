@@ -28,7 +28,9 @@ if (($cache = $nv_Cache->getItem($module_name, $cacheFile, $cacheTTL)) != false)
         AND status=1 ORDER BY addtime DESC LIMIT 1000';
     $result = $db->query($sql);
 
-    while (list($id, $cid, $weight, $publtime) = $result->fetch(3)) {
+    while ($_scratch = $result->fetch(3)) {
+        list($id, $cid, $weight, $publtime) = $_scratch;
+        unset($_scratch);
         $pg = ceil($weight / $per_page);
         $url[] = [
             'link' => NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . ($cid ? '&amp;' . NV_OP_VARIABLE . '=' . $list_cats[$cid]['alias'] : '') . ($pg > 1 ? '/page-' . $pg : '') . '/question-' . $id,

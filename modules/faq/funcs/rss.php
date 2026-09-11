@@ -49,7 +49,9 @@ $sql = 'SELECT id, catid, title, question, weight, addtime
 if ($module_info['rss']) {
     if (($result = $db->query($sql)) !== false) {
         $link = NV_MY_DOMAIN . NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name;
-        while (list($id, $cid, $title, $question, $weight, $addtime) = $result->fetch(3)) {
+        while ($_scratch = $result->fetch(3)) {
+            list($id, $cid, $title, $question, $weight, $addtime) = $_scratch;
+            unset($_scratch);
             if ($cid) {
                 $link .= '&amp;' . NV_OP_VARIABLE . '=' . $list_cats[$cid]['alias'];
             }

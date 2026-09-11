@@ -56,7 +56,9 @@ if (!empty($in)) {
 
         $tmp_re = $db->query($db->sql());
         $link = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $m_values['module_name'];
-        while (list($id, $title, $question, $answer, $weight, $catid) = $tmp_re->fetch(3)) {
+        while ($_scratch = $tmp_re->fetch(3)) {
+            list($id, $title, $question, $answer, $weight, $catid) = $_scratch;
+            unset($_scratch);
             if ($catid) {
                 $link .= '&amp;' . NV_OP_VARIABLE . '=' . $list_cats[$catid]['alias'];
             }

@@ -317,7 +317,7 @@ if ($nv_Request->isset_request('del', 'post')) {
 
     $sql = 'SELECT COUNT(*) AS count, parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE id=' . $catid;
     $result = $db->query($sql);
-    list($count, $parentid) = $result->fetch(3);
+    list($count, $parentid) = $result->fetch(3) ?: [null, null];
 
     if ($count != 1) {
         exit('NO_' . $lang_module['faq_cat_notfound']);
@@ -429,7 +429,7 @@ if (!$num) {
 if ($pid) {
     $sql2 = 'SELECT title,parentid FROM ' . NV_PREFIXLANG . '_' . $module_data . '_categories WHERE id=' . $pid;
     $result2 = $db->query($sql2);
-    list($parentid, $parentid2) = $result2->fetch(3);
+    list($parentid, $parentid2) = $result2->fetch(3) ?: [null, null];
     $caption = sprintf($lang_module['faq_table_caption2'], $parentid);
     $parentid = '<a href="' . NV_BASE_ADMINURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=cat&amp;pid=' . $parentid2 . '">' . $parentid . '</a>';
 } else {
